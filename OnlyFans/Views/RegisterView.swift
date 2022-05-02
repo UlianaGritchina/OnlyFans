@@ -9,6 +9,9 @@ import SwiftUI
 
 struct RegisterView: View {
     @State private var isShowTabBarView = false
+    @State private var email = ""
+    @State private var password = ""
+    @State private var name = ""
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
     var body: some View {
@@ -17,11 +20,15 @@ struct RegisterView: View {
             VStack {
                 CustomNavigateion(title: "Register")
                 Spacer()
-                TFCapsule(title: "Full name").padding()
-                TFCapsule(title: "E-mail")
-                TFCapsule(title: "Password").padding()
+                TFCapsule(title: "Full name", value: $name).padding()
+                TFCapsule(title: "E-mail", value: $email)
+                TFCapsule(title: "Password", value: $password).padding()
                 
-                LoginButton(title: "Register", action: {isShowTabBarView.toggle()}).padding(.top, height / 12)
+                LoginButton(title: "Register", action: {
+                    isShowTabBarView.toggle()
+                    DataManager.shared.saveEmail(mail: email)
+                    
+                }).padding(.top, height / 12)
                 
                 LogWithView()
                 Spacer()

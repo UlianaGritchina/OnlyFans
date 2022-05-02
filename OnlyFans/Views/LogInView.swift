@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LogInView: View {
     @State private var isShowNews = false
+    @State private var email = ""
+    @State private var password = ""
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
     var body: some View {
@@ -17,9 +19,23 @@ struct LogInView: View {
             VStack {
                 CustomNavigateion(title: "Login")
                 Spacer()
-                TFCapsule(title: "E-mail").padding()
-                TFCapsule(title: "Password")
-                LoginButton(title: "Login", action: {isShowNews.toggle()}).padding(.top, height / 10)
+                ZStack {
+                    TFCapsule(title: "E-mail", value: $email).padding()
+                    Capsule()
+                        .stroke()
+                        .frame(width: width - 40, height: height / 20)
+                        .foregroundColor(email == DataManager.shared.getEmail() ? .white : .red)
+                }
+                TFCapsule(title: "Password", value: $password)
+                LoginButton(title: "Login", action: {
+                    if email == DataManager.shared.getEmail() {
+                        isShowNews = true
+                    } else {
+                        isShowNews = false
+                    }
+                    
+                    
+                }).padding(.top, height / 10)
                 LogWithView()
                 Spacer()
                 Spacer()
@@ -47,6 +63,7 @@ struct LoginBack: View {
 
 struct TFCapsule: View {
     let title: String
+    @Binding var value: String
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
     var body: some View {
@@ -54,7 +71,7 @@ struct TFCapsule: View {
             .stroke(.white)
             .frame(width: width - 40, height: height / 20)
             .overlay(
-                TextField(title, text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                TextField(title, text: $value)
                     .padding()
             )
 

@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+
+class DataManager {
+    
+    static let shared = DataManager()
+    
+    func saveEmail(mail: String) {
+        UserDefaults.standard.set(mail, forKey: "mail")
+    }
+    
+    func getEmail() -> String {
+        UserDefaults.standard.string(forKey: "mail") ?? "no"
+    }
+    
+}
 struct StatrerView: View {
     @State private var showLoginVew = false
     @State private var showRegisterView = false
